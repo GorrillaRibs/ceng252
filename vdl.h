@@ -1,0 +1,2 @@
+#define SLEEPTIME 500000
+#define LOGCOUNT 10

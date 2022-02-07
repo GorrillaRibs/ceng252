@@ -1,0 +1,7 @@
+*.o
+*.txt
+*.dat
+spt
+spt.cbp
+spt.layout
+*.~undo-tree~
