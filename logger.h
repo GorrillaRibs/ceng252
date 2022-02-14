@@ -33,6 +33,7 @@
 #define HB 0x00E7
 #define HY 0xC4A0
 #define HW 0xFFFF
+#define GPSDEVICE 1
 
 struct readings {
   time_t rtime;      ///< Reading time

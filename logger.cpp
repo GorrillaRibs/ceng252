@@ -10,6 +10,7 @@
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
+#include "dlgps.h"
 
 #if SENSEHAT == 1
 #include "sensehat.h"
@@ -100,6 +101,8 @@ void DlDisplayLoggerReadings(reading_s dreads) {
  */
 reading_s DlGetLoggerReadings(void) {
   reading_s creads;
+	loc_t gpsdata;
+	gpsdata = {0};
   creads.rtime = time(NULL);
 #if SENSEHAT == 1
   usleep(IMUDELAY);
@@ -123,11 +126,21 @@ reading_s DlGetLoggerReadings(void) {
   creads.ym = DYM;
 	creads.zm = DZM;
 #endif
+#if GPSDEVICE == 1
+	DlGpsInit();
+	gpsdata = DlGpsLocation();
+	creads.latitude = gpsdata.latitude;
+	creads.longitude = gpsdata.longitude;
+	creads.altitude = gpsdata.altitude;
+	creads.heading = gpsdata.course;
+	creads.speed = gpsdata.speed;
+#else
   creads.latitude = DLAT;
   creads.longitude = DLONG;
   creads.altitude = DALT;
   creads.speed = DSPEED;
   creads.heading = DHEADING;
+#endif
   return creads;
 }
 
@@ -142,6 +155,12 @@ int DlSaveLoggerData(reading_s creads) {
   return 0;
 }
 
+/** @brief Displays the Humber logo on the SenseHat Screen
+ *  @author Robert Miller
+ *  @date 06Feb2022
+ *  @param void
+ *  @return void
+ */
 void DlDisplayLogo(void) {
 	uint16_t logo[8][8] = {	HB,HB,HB,HB,HB,HB,HB,HB,
 			HB,HB,HW,HB,HB,HW,HB,HY,
@@ -156,11 +175,17 @@ void DlDisplayLogo(void) {
 	Sh.ViewPattern(logo);
 }
 
+/** @brief Updates a group of yellow pixels on the sensehat screen
+ *  @author Robert Miller
+ *  @date 06Feb2022
+ *  @param float xa, float ya from readings struct
+ *  @return void
+ */
 void DlUpdateLevel(float xa, float ya) {
 	int x, y;
 	Sh.WipeScreen();
 	y = (int) (xa * -30.0 + 4);
-  x = (int) (ya * -30.0 + 4);
+    x = (int) (ya * -30.0 + 4);
 	// constrain between 0 -> 6
 	if (x < 0) {
 		x = 0;
@@ -172,8 +197,8 @@ void DlUpdateLevel(float xa, float ya) {
 	} else if (y > 6) {
 		y = 6;
 	}
-	Sh.LightPixel(x, y, HY);
-  Sh.LightPixel(x+1, y, HY);
-  Sh.LightPixel(x, y+1, HY);
-  Sh.LightPixel(x+1, y+1, HY);
+    Sh.LightPixel(x, y, HY);
+    Sh.LightPixel(x+1, y, HY);
+    Sh.LightPixel(x, y+1, HY);
+    Sh.LightPixel(x+1, y+1, HY);
 }
