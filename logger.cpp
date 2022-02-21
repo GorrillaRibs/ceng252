@@ -144,15 +144,36 @@ reading_s DlGetLoggerReadings(void) {
   return creads;
 }
 
-/** @brief Currently just prints a message, will save logger data to storage
+/** @brief Saves logger data to a .csv and a .json
  *  @author Robert Miller
  *  @date 23Jan2022
  *  @param struct reading_s creads
  *  @return int
  */
 int DlSaveLoggerData(reading_s creads) {
-  fprintf(stdout, "\nSaving Logger Data\n");
-  return 0;
+	FILE *fp;
+	char ltime[TIMESTRSZ];
+	char jsondata[PAYLOADSTRSZ];
+	fp = fopen("loggerdata.csv", "a");
+	if (fp == NULL) {
+		return 0;
+	}
+	strncpy(ltime, ctime(&creads.rtime), TIMESTRSZ);
+	ltime[3] = ',';
+	ltime[7] = ',';
+  ltime[10] = ',';
+  ltime[19] = ',';
+	fprintf(fp, "%.24s,%3.1f,%3.0f,%3.1f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", ltime, creads.temperature, creads.humidity, creads.pressure, creads.xa, creads.ya, creads.za, creads.pitch, creads.yaw, creads.roll, creads.xm, creads.ym, creads.zm, creads.latitude, creads.longitude, creads.altitude, creads.speed, creads.heading);
+	fclose(fp);
+	sprintf(jsondata, "{\"temperature\":%-3.1f,\"humidity\":%-3.0f,\"pressure\":%-3.1f,\"xa\":%-f,\"ya\":%-f,\"za\":%-f,\
+\"pitch\":%-f,\"roll\":%-f,\"yaw\":%-f,\"xm\":%-f,\"ym\":%-f,\"zm\":%-f,\"latitude\":%-f,\"longitude\":%-f,\"altitude\":%-f,\"speed\":%-f,\"heading\":%-f,\"active\": true}", creads.temperature, creads.humidity, creads.pressure, creads.pitch, creads.yaw, creads.roll, creads.xm, creads.ym, creads.zm, creads.latitude, creads.longitude, creads.altitude, creads.speed, creads.heading);
+	fp = fopen("loggerdata.json", "a");
+	if (fp == NULL) {
+		return -1;
+	}
+	fprintf(fp, "%s", jsondata);
+	fclose(fp);
+  return 1;
 }
 
 /** @brief Displays the Humber logo on the SenseHat Screen

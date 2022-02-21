@@ -34,6 +34,8 @@
 #define HY 0xC4A0
 #define HW 0xFFFF
 #define GPSDEVICE 1
+#define TIMESTRSZ 25
+#define PAYLOADSTRSZ 400
 
 struct readings {
   time_t rtime;      ///< Reading time
