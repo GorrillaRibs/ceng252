@@ -11,6 +11,7 @@
 #include <ctime>
 #include <unistd.h>
 #include "dlgps.h"
+#include "loggermqtt.h"
 
 #if SENSEHAT == 1
 #include "sensehat.h"
@@ -173,7 +174,10 @@ int DlSaveLoggerData(reading_s creads) {
 	}
 	fprintf(fp, "%s", jsondata);
 	fclose(fp);
-  return 1;
+
+	int rc = DlPublishLoggerData(jsondata);
+
+  return rc;
 }
 
 /** @brief Displays the Humber logo on the SenseHat Screen
