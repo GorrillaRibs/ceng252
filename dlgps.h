@@ -6,7 +6,8 @@
 #include <cmath>
 
 #define round(x) ((x < 0) ? (ceil((x)-0.5)) : (floor((x)+0.5)))
-#define SIMGPS 1
+#define SIMGPS 0
+#define GPSDSERVER 1
 #define GPSSERIAL 0
 #define GPSDATASZ 256
 

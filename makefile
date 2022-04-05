@@ -1,5 +1,5 @@
 vdl: vdl.o logger.o sensehat.o serial.o nmea.o dlgps.o loggermqtt.o dlfirmata.o
-	g++ -g -o vdl vdl.o logger.o sensehat.o serial.o nmea.o dlgps.o loggermqtt.o dlfirmata.o -lm -lRTIMULib -lpaho-mqtt3c -lboost_thread -lboost_system -lpthread -lopenFrameworksArduinoD
+	g++ -g -o vdl vdl.o logger.o sensehat.o serial.o nmea.o dlgps.o loggermqtt.o dlfirmata.o -lm -lRTIMULib -lpaho-mqtt3c -lboost_thread -lboost_system -lpthread -lopenFrameworksArduinoD -lgps
 vdl.o: vdl.cpp vdl.h logger.h sensehat.h serial.h nmea.h dlgps.h
 	g++ -g -c vdl.cpp
 logger.o: logger.cpp logger.h sensehat.h serial.h nmea.h dlgps.h loggermqtt.h

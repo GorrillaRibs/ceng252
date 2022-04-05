@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "vdl.h"
 #include "logger.h"
+#include "stdafx.h"
 #include <ofArduino.h>
 #include "dlfirmata.h"
 
