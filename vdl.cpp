@@ -7,7 +7,7 @@
 #include "vdl.h"
 #include "logger.h"
 #include "stdafx.h"
-#include <ofArduino.h>
+//#include <ofArduino.h>
 #include "dlfirmata.h"
 
 ArduinoFirmata ard;
@@ -25,6 +25,7 @@ int main(void)
   DlInitialization();
 	DlDisplayLogo();
 	sleep(3);
+	/*
   if (!ard.connect("ttyACM0", 57600)) { // Serial Port and Baud Rate
     fprintf(stdout, "\nFailed to connect to arduino!");
     return -1;
@@ -37,20 +38,26 @@ int main(void)
   ard.sendFirmwareVersionRequest();
 
   ard.setupArduino(1);
-
+*/
   while (1) {
+	  /*
 		ard.update();
 		ard.sendDigital(WHITELED, 1);
+		*/
     reads = DlGetLoggerReadings();
+    /*
 		if (ard.getDigital(LSWITCH) == 1) {
 			ard.sendDigital(BEEPER, 1);
 		} else {
 			ard.sendDigital(REDLED, 1);
 		}
+		*/
     usleep(SLEEPTIME);
+    /*
     ard.sendDigital(WHITELED, 0);
     ard.sendDigital(REDLED, 0);
     ard.sendDigital(BEEPER, 0);
+    */
     DlUpdateLevel(reads.xa, reads.ya);
 		if (tc == LOGCOUNT) {
 			DlDisplayLoggerReadings(reads);

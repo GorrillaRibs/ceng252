@@ -27,7 +27,7 @@ SenseHat Sh;
  *  @return int
  */
 int DlInitialization(void) {
-  fprintf(stdout, "\nData Logger Initialization\n");
+	// fprintf(stdout, "\nData Logger Initialization\n");
   return 1;
 }
 
